@@ -1,0 +1,11 @@
+---
+terraform_project_dir: "{{ project_dir }}"
+terraform_tf_source_dirname: "tf_source"
+terraform_services: "{{ task_services | default({}) }}"
+terraform_postgresql_superuser_password: "{{ postgresql_superuser_password }}"
+terraform_code_templates:
+  - src: "main.tf.j2"
+    dest: "{{ terraform_project_dir }}/{{ terraform_tf_source_dirname }}/main.tf"
+  - src: "outputs.tf.j2"
+    dest: "{{ terraform_project_dir }}/{{ terraform_tf_source_dirname }}/outputs.tf"
+terraform_output_file: "{{ terraform_project_dir }}/output.yml"

@@ -1,0 +1,6 @@
+---
+project_name: "task_1"
+project_dir: "/tmp/{{ project_name }}"
+task_services:
+  - service_name: "database_1"
+    port: 5432

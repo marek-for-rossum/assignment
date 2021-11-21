@@ -1,0 +1,16 @@
+---
+- name: ensure docker-compose deployment is absent
+  community.docker.docker_compose:
+    project_src: "{{ destroy_project_dir }}"
+    state: absent
+
+- name: cleanup created docker volumes
+  community.docker.docker_volume:
+    name: "{{ destroy_project_name }}_{{ destroy_project_name }}_{{ item.service_name }}_data"
+    state: absent
+  loop: "{{ destroy_compose_services }}"
+
+- name: ensure project directory exists
+  file:
+    path: "{{ destroy_project_dir }}"
+    state: absent

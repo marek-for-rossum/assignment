@@ -1,0 +1,4 @@
+---
+destroy_project_name: "{{ project_name }}"
+destroy_project_dir: "{{ project_dir }}"
+destroy_compose_services: "{{ task_services | default({}) }}"

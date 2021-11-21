@@ -1,0 +1,32 @@
+---
+- name: ensure project directory exists
+  file:
+    path: "{{ terraform_project_dir }}"
+    state: directory
+
+- name: copy terraform manifests source dir
+  copy:
+    src: "{{ terraform_tf_source_dirname }}"
+    dest: "{{ terraform_project_dir }}"
+
+- name: create terraform manifest files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ terraform_code_templates }}"
+
+- name: deploy terraform infrastructure
+  community.general.terraform:
+    project_path: "{{ terraform_project_dir }}/{{ terraform_tf_source_dirname }}"
+    state: present
+    force_init: true
+  register: _terraform_run
+
+- name: create outputs vars file
+  template:
+    src: "output.yml.j2"
+    dest: "{{ terraform_output_file }}"
+
+- name: display outputs
+  debug:
+    msg: "{{ lookup('file', terraform_output_file) }}"

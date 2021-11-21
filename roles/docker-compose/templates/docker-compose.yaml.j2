@@ -1,0 +1,22 @@
+version: '3'
+services:
+{% for _service in docker_compose_services %}
+  {{ _service.service_name }}:
+    image: "postgres:14.1"
+    ports:
+      - "127.0.0.1:{{ _service.port }}:5432"
+    environment:
+      - POSTGRES_PASSWORD_FILE=/var/lib/postgresql/secrets/{{ docker_compose_secret_filename }}
+    volumes:
+      - type: volume
+        source: {{ docker_compose_project_name }}_{{ _service.service_name }}_data
+        target: /var/lib/postgresql/data/
+      - type: bind
+        source: {{ docker_compose_secret_dir }}
+        target: /var/lib/postgresql/secrets/
+        read_only: true
+{% endfor %}
+volumes:
+{% for _service in docker_compose_services %}
+  {{ docker_compose_project_name }}_{{ _service.service_name }}_data:
+{% endfor %}

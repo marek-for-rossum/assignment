@@ -1,0 +1,12 @@
+---
+project_name: "task_2"
+project_dir: "/tmp/{{ project_name }}"
+task_services:
+  - service_name: "database_1"
+    port: 5551
+
+  - service_name: "database_2"
+    port: 5552
+
+  - service_name: "database_3"
+    port: 5553

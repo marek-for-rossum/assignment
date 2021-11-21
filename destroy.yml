@@ -1,0 +1,4 @@
+- hosts: "{{ group }}"
+  connection: local
+  roles:
+    - role: "roles/destroy"

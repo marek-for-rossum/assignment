@@ -1,0 +1,24 @@
+{% for _service in terraform_services %}
+output "{{ _service.service_name }}_admin_dbs_and_usernames" {
+  value       = module.{{ _service.service_name }}.name
+  description = "DB names and their related connection admin usernames"
+}
+
+output "{{ _service.service_name }}_admin_passwords" {
+  value       = module.{{ _service.service_name }}.password
+  description = "DBs admin passwords"
+  sensitive   = true
+}
+
+output "{{ _service.service_name }}_read_only_dbs_username" {
+  value       = module.{{ _service.service_name }}.name_ro
+  description = "Username of read_only user allowed to view all DBs"
+}
+
+output "{{ _service.service_name }}_read_only_password" {
+  value       = module.{{ _service.service_name }}.password_ro
+  description = "Password for read_only user."
+  sensitive   = true
+}
+
+{% endfor %}

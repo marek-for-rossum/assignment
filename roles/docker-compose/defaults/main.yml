@@ -1,0 +1,9 @@
+---
+docker_compose_project_name: "{{ project_name }}"
+docker_compose_project_dir: "{{ project_dir }}"
+docker_compose_manifest: "{{ docker_compose_project_dir }}/docker-compose.yaml"
+docker_compose_services: "{{ task_services | default({}) }}"
+docker_compose_postgresql_superuser_password: "{{ postgresql_superuser_password }}"
+docker_compose_secret_dir: "{{ docker_compose_project_dir }}/secrets"
+docker_compose_secret_filename: "psql_pass.txt"
+docker_compose_secret_file: "{{ docker_compose_secret_dir }}/{{ docker_compose_secret_filename }}"

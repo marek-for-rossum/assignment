@@ -1,0 +1,5 @@
+- hosts: "{{ group }}"
+  connection: local
+  roles:
+    - role: "roles/docker-compose"
+    - role: "roles/terraform"

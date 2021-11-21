@@ -1,0 +1,28 @@
+---
+- name: ensure project directory exists
+  file:
+    path: "{{ docker_compose_secret_dir }}"
+    state: directory
+
+- name: copy DB superuser secret password file to project source dir
+  copy:
+    dest: "{{ docker_compose_secret_file }}"
+    content: "{{ docker_compose_postgresql_superuser_password }}"
+
+- name: create docker-compose YAML file
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{ docker_compose_manifest }}"
+
+- community.docker.docker_compose:
+    project_src: "{{ docker_compose_project_dir }}"
+    state: present
+  register: docker_compose_present_output
+
+- name: assert that provisioned services are running
+  ansible.builtin.assert:
+    that:
+      - "not False in docker_compose_present_output.services | dict2items | to_json | from_json | json_query('[].value | [].values(@)[].state.running')"
+    msg:
+      - "There are docker-compose services not running, please inspect docker-compose."
+      - "I had this issue when SELinux was running, you can stop it using 'sudo setenforce 0' command."

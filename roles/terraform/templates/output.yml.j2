@@ -1,0 +1,12 @@
+######################
+{% for _service in terraform_services %}
+{{ _service.service_name }}, port: {{ _service.port }}
+{% endfor %}
+######################
+
+CREDENTIALS
+{% for _credential in _terraform_run.outputs %}
+{{ _credential }}:
+{{ _terraform_run.outputs[_credential].value | to_nice_yaml(indent=12) }}
+{% endfor %}
+

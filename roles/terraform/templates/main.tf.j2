@@ -1,0 +1,18 @@
+{% for _service in terraform_services %}
+provider "postgresql" {
+  alias           = "{{ _service.service_name }}"
+  host            = "localhost"
+  port            = {{ _service.port }}
+  username        = "postgres"
+  password        = "{{ terraform_postgresql_superuser_password }}"
+  sslmode         = "disable"
+}
+
+module "{{ _service.service_name }}" {
+  source    = "./modules/database"
+  providers = {
+    postgresql = postgresql.{{ _service.service_name }}
+  }
+}
+
+{% endfor %}
